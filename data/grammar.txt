@@ -1,12 +1,12 @@
 expresion		: term			((PLUS|MINUS) term)*
 e.g      		: 12 - 12 *
 
-term				: factor	  ((MUL|DIV) factor)*
+term				: factor	  ((MUL|DIV) factor) *
 e.g         : 12 : 12 *
 
-factor      : INT|FLOAT
-						: (PLUS|MINUS) factor
-						: LPARENT expr RPARENT
-e.g         : 12 or 12.5
-						: -12
-						: (1+1)
+factor      : (POSITIVE|NEGATIVE) power
+
+power       : base	  (POW factor)       *
+
+base				: INT|FLOAT
+|           : LPARENT expr RPARENT

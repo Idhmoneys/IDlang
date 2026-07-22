@@ -1,7 +1,5 @@
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
-
 ![License](https://img.shields.io/badge/license-MIT-green)
-
 ![Status](https://img.shields.io/badge/status-In%20Development-orange)
 
 # 🇮🇩 Indo Programming Language
@@ -24,10 +22,10 @@ This project is built to learn how programming languages work.
 ```bash
 $ python main.py
 
-id: 25 + 6 * 15 : 2 - 3
-67
-id: 20 : (-5 - (-10))
-4.0
+>> 25 + 6 * 15 : 2 - 3
+id: 67.0
+>> 20 : (-5 - (-10))
+id: 4.0
 
 ```
 
@@ -35,7 +33,12 @@ id: 20 : (-5 - (-10))
 
 v0.1
 <p align="center">
-  <img src="assets/interpreter_v0.1.jpg" alt="Something went wrong..." />
+  <img src="assets/interpreter_v0.1.jpg" alt="Something went wrong..." width=400 height=175 />
+</p>
+
+v0.2
+<p align="center">
+  <img src="assets/interpreter_v0.2.jpg" alt="Something went wrong..." />
 </p>
 
 ## 📋 Requirements
@@ -60,18 +63,26 @@ python main.py
 - Arithmetic operations
 - Unary operators
 - Parentheses support
+- Runtime error
 
 ## 💈 Current Status
 
 The language is currently capable of evaluating arithmetic expressions.
 
-✅ Supported features:
+#### ✅ Supported features:
 
+v0.1
 - Integer
 - Float
 - '+ - * :'
 - Unary operators
 - Parentheses
+----
+v0.2
+- Zero division error
+- Runtime error
+- Context
+- Exponential
 
 ## 🛣️ Roadmap
 
