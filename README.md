@@ -1,126 +1,151 @@
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-In%20Development-orange)
+![Version](https://img.shields.io/badge/version-v0.3-blue)
 
 # 🇮🇩 Indo Programming Language
 
-🇬🇧 English below.
+Bahasa pemrograman sederhana dengan sintaks bergaya Bahasa Indonesia.
 
-Bahasa pemrograman sederhana yang memakai keyword bahasa Indonesia.
-Project ini dibuat sebagai sarana belajar membuat interpreter dari nol.
+Proyek ini dibuat sebagai sarana belajar membangun **lexer**, **parser**, dan **interpreter** dari nol menggunakan Python.
+
+> 🇬🇧 This project is primarily documented in Indonesian because the language itself is designed around Indonesian syntax.
+
+> 🚧 **Masih dalam tahap pengembangan.**  
+> Sintaks dan fitur dapat berubah sewaktu-waktu.
 
 ---
 
-A simple interpreted programming language using Indonesian keywords.
-This project is built to learn how programming languages work.
+## 📝 Contoh
 
-> 🚧 This project is under active development.
-> Syntax and features may change in future versions.
-
-## 📝 Example
-
-```bash
-$ python main.py
-
+```python
 >> 25 + 6 * 15 : 2 - 3
-id: 67.0
->> 20 : (-5 - (-10))
-id: 4.0
+((INT:25, PLUS, ((INT:6, MUL, INT:15), DIV, INT:2)), MINUS, INT:3)
 
+>> 20 : (-5 - (-10))
+(INT:20, DIV, ((MINUS INT:5), MINUS, (MINUS INT:10)))
 ```
+
+---
 
 ## 📸 Screenshot
 
-v0.1
+### v0.1
+
 <p align="center">
-  <img src="assets/interpreter_v0.1.jpg" alt="Something went wrong..." width=400 height=175 />
+  <img src="assets/interpreter_v0.1.jpg" width="400">
 </p>
 
-v0.2
+### v0.2
+
 <p align="center">
-  <img src="assets/interpreter_v0.2.jpg" alt="Something went wrong..." />
+  <img src="assets/interpreter_v0.2.jpg">
 </p>
 
-## 📋 Requirements
+---
 
-- Python 3.11+
+## 📋 Persyaratan
 
-## ⚙️ Installation
+- Python 3.11 atau lebih baru
 
-``` bash
+---
+
+## ⚙️ Instalasi
+
+```bash
 git clone https://github.com/Idhmoneys/IDlang.git
 cd IDlang
 python main.py
 ```
 
-## ✨ Features
+---
 
-- Interactive REPL
+## ✨ Fitur
+
+Saat ini Indo sudah memiliki:
+
+- REPL interaktif
 - Lexer
 - Parser
-- Abstract Syntax Tree (AST)
-- Interpreter
-- Arithmetic operations
-- Unary operators
-- Parentheses support
-- Runtime error
-
-## 💈 Current Status
-
-The language is currently capable of evaluating arithmetic expressions.
-
-#### ✅ Supported features:
-
-v0.1
-- Integer
-- Float
-- '+ - * :'
-- Unary operators
-- Parentheses
-----
-v0.2
-- Zero division error
-- Runtime error
+- Operasi aritmatika
+- Unary operator
+- Prioritas operator
+- Tanda kurung
+- Runtime Error
 - Context
-- Exponential
+
+---
+
+## 📈 Progress
+
+> ℹ️ v0.3 merupakan hasil penulisan ulang (rewrite) dari proyek sebelumnya.
+> Beberapa fitur yang ada di v0.2 kebawah sedang dibangun ulang dengan implementasi yang lebih rapi dan tanpa bergantung pada tutorial.
+
+### v0.1
+
+- Lexer
+- Parser
+- Unary operator
+- Operasi aritmatika dasar
+
+### v0.2
+
+- Refactor lexer
+- Refactor parser
+- Runtime Error
+- Context
+- Operator perpangkatan (^)
+
+### v0.3 (sedang dikerjakan)
+
+- AST
+- Interpreter
+
+---
 
 ## 🛣️ Roadmap
 
 - [x] Lexer
 - [x] Parser
-- [x] AST
-- [x] Interpreter
+- [ ] AST
+- [ ] Interpreter
 - [ ] Variables
 - [ ] String
 - [ ] Boolean
-- [ ] If statement
+- [ ] If Statement
 - [ ] Loop
 - [ ] Function
 - [ ] Lists
-- [ ] Dictionaries
+- [ ] Dictionary
 - [ ] Module
 - [ ] Standard Library
 - [ ] Error Traceback
 
-## 🤷‍♂️ Why?
+---
 
-This project was created to learn how programming languages and interpreters work while experimenting with an Indonesian-style syntax.
+## 🤷 Kenapa membuat Indo?
 
-The long-term goal is to make programming feel more natural for Indonesian speakers.
+Awalnya proyek ini dibuat sebagai media belajar membuat bahasa pemrograman.
 
-## ===== PROJECT INFO =====
+Namun seiring berjalannya waktu, proyek ini berkembang menjadi eksperimen untuk membuat bahasa pemrograman yang terasa lebih natural bagi penutur Bahasa Indonesia.
 
-*Project Name:*\
-IDlang
+---
 
-*Made By:*\
+## 📦 Project Info
+
+**Nama**
+IDlang (Indo Programming Language)
+
+**Dibuat oleh**
 [Idhm](https://github.com/Idhmoneys)
 
-*Made With:*\
+**Dibuat menggunakan**
 Python
 
-*Made in:*\
-19/07/2026 (20:03:52)
+**Dimulai pada**
+19 Juli 2026
+
+---
 
 ## License
 
