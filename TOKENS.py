@@ -1,8 +1,6 @@
 ####################################
 # BIKIN TOKEN (TT = TOKEN TYPE)
 ####################################
-from dataclasses import dataclass
-
 class Token:
   """
   bagian-kecil hasil pecahan kode teks mentah 
@@ -27,7 +25,7 @@ class Token:
   TT_EOF:       str   =   'EOF'
   
   def __init__(self, token_type: str, value: None|int|float =None) -> None:
-    self.type: str = token_type
+    self.type:  str            = token_type
     self.value: None|int|float = value
     
   def __repr__(self) -> str:
@@ -37,9 +35,10 @@ class Token:
     return f'{self.type}:{self.value}'
     
     
-def main() -> None:
+def main() -> int:
   token: Token = Token('TT_DOT')
-  print(token)
+  print('%s' % (token))
+  return 0
     
 if __name__ == '__main__':
   main()

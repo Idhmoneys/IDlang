@@ -1,7 +1,7 @@
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-In%20Development-orange)
-![Version](https://img.shields.io/badge/version-v0.3-blue)
+![Version](https://img.shields.io/badge/version-v0.4-blue)
 
 # 🇮🇩 Indo Programming Language
 
@@ -12,18 +12,19 @@ Proyek ini dibuat sebagai sarana belajar membangun **lexer**, **parser**, dan **
 > 🇬🇧 This project is primarily documented in Indonesian because the language itself is designed around Indonesian syntax.
 
 > 🚧 **Masih dalam tahap pengembangan.**  
-> Sintaks dan fitur dapat berubah sewaktu-waktu.
+> Sintaks dan fitur dapat berubah sewaktu-waktu.\
+> Bantu saya dengan memberikan feedback/saran/masukan
 
 ---
 
 ## 📝 Contoh
 
 ```python
->> 25 + 6 * 15 : 2 - 3
-((INT:25, PLUS, ((INT:6, MUL, INT:15), DIV, INT:2)), MINUS, INT:3)
+>> 25 + 6 * 15 / 2 - 3
+67.0
 
->> 20 : (-5 - (-10))
-(INT:20, DIV, ((MINUS INT:5), MINUS, (MINUS INT:10)))
+>> 20 / (-5 - (-10))
+4.0
 ```
 
 ---
@@ -76,10 +77,7 @@ Saat ini Indo sudah memiliki:
 
 ---
 
-## 📈 Progress
-
-> ℹ️ v0.3 merupakan hasil penulisan ulang (rewrite) dari proyek sebelumnya.
-> Beberapa fitur yang ada di v0.2 kebawah sedang dibangun ulang dengan implementasi yang lebih rapi dan tanpa bergantung pada tutorial.
+## 📈 Progress/Changelog
 
 ### v0.1
 
@@ -90,14 +88,28 @@ Saat ini Indo sudah memiliki:
 
 ### v0.2
 
-- Refactor lexer
-- Refactor parser
+- Interpreter
+- AST
 - Runtime Error
 - Context
 - Operator perpangkatan (^)
 
-### v0.3 (sedang dikerjakan)
+### v0.3
 
+> ℹ️ v0.3 merupakan hasil penulisan ulang (rewrite) dari proyek sebelumnya.
+> Beberapa fitur yang ada di v0.2 kebawah sedang dibangun ulang dengan implementasi yang lebih rapi dan tanpa bergantung pada tutorial.
+
+- Lexer
+- Parser
+- Unary operator
+- Operasi aritmatika dasar
+
+### v0.4
+
+> telah berhasil menambah interpreter, sekarang sudah bisa menghitung aritmatika dasar.
+
+- Node
+- Value
 - AST
 - Interpreter
 
@@ -107,8 +119,8 @@ Saat ini Indo sudah memiliki:
 
 - [x] Lexer
 - [x] Parser
-- [ ] AST
-- [ ] Interpreter
+- [x] AST
+- [x] Interpreter
 - [ ] Variables
 - [ ] String
 - [ ] Boolean

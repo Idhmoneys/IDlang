@@ -51,17 +51,19 @@ class Lexer:
           case ')':
             tokens.append(Token(Token.TT_RPARENT))
             self.advance()
+          case '.':
+            break
           case _:
-            return IllegalCharError(self.current_character).as_string()
+            return [], IllegalCharError(self.current_character).as_string()
     tokens.append(Token(Token.TT_EOF))
-    return tokens
+    return tokens, None
     
   def generate_numbers(self) -> Token:
     """
     Menggabung kan character untuk menjad angka, mirip split(' ')
     Contoh: 123, 1.5, 67
     """
-    numbers: str = ''
+    numbers:   str = ''
     dot_count: int = 0
     
     while self.current_character is not None and self.current_character in Token.DIGITS + '.':
@@ -69,12 +71,13 @@ class Lexer:
         if dot_count == 1: # cek apakah udah ada . sebelumnya
           break
         dot_count += 1
+      
       numbers += self.current_character
       self.advance()
       
     if dot_count == 1:
-      return Token(Token.TT_FLOAT, numbers)
-    return Token(Token.TT_INT, numbers)
+      return Token(Token.TT_FLOAT, float(numbers))
+    return Token(Token.TT_INT, int(numbers))
 
 
 # AREA TESTING

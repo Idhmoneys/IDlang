@@ -1,5 +1,7 @@
 from LEXER import Lexer
 from PARSER import Parser
+from INTERPRETER import Interpreter
+import NODES
 import argparse
 
 def main() -> None:
@@ -17,22 +19,39 @@ def main() -> None:
       line = line.strip()
       
       lexer = Lexer(line)
-      tokens = lexer.create_tokens()
+      tokens, error = lexer.create_tokens()
+      
+      if error:
+        print(error)
+        break
       
       parser: Parser = Parser(tokens)
       ast = parser.parse()
-      print(f'ast: {ast}')
       
-def test():
+      interpreter = Interpreter()
+      print(interpreter.visit(ast))
+      
+      
+def REPL():
   while True:
-    ui = input('>> ')
     
-    lexer: Lexer = Lexer(ui)
-    tokens = lexer.create_tokens()
+    user_input    = input('>> ')
+    
+    lexer: Lexer  = Lexer(user_input)
+    tokens, error = lexer.create_tokens()
+    
+    if error:
+      print(error)
+      continue
     
     parser: Parser = Parser(tokens)
-    ast = parser.parse()
-    print(ast)
+    ast: NODES     = parser.parse() # ast -> Abstract Syntax Tree
+    
+    interpreter: Interpreter = Interpreter()
+    result: any    = interpreter.visit(ast)
+    
+    print(result)
+
   
 if __name__ == '__main__':
-  test()
+  REPL()

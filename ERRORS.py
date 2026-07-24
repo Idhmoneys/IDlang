@@ -9,12 +9,16 @@ class Error:
   def as_string(self) -> str:
     """Berfungsi agar kalau pengen di print lebih rapi"""
     return f'{self.name}: {self.details}'
-    
+
 
 class IllegalCharError(Error):
   def __init__(self, details: str) -> None:
     super().__init__('Illegal Character', details)
   
+class NoVisitMethod(Error):
+  def __init__(self, details: str) -> None:
+    super().__init__('No Visit Method', details)
+
  
 def main() -> None:
  er: IllegalCharError = IllegalCharError('test')

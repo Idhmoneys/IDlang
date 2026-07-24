@@ -1,5 +1,6 @@
 from TOKENS import Token
 from NODES import BinaryOpNode, UnaryOpNode, NumberNode
+from ERRORS import IllegalCharError
 
 class Parser:
   """
@@ -26,24 +27,24 @@ class Parser:
     begitu terus sampai di tier maximal
     TODO: bikin parse nya
     """
-    result = self.expression()
+    result: NumberNode|UnaryOpNode|BinaryOpNode = self.expression()
     return result
     
   #################################
-  def expression(self) -> BinaryOpNode:
+  def expression(self) -> NumberNode|UnaryOpNode|BinaryOpNode:
     """expression adalah langkah paling awal dalam parser"""
     return self.binary_operation(self.term, (Token.TT_PLUS, Token.TT_MINUS))
     
-  def term(self) -> BinaryOpNode:
+  def term(self) -> NumberNode|UnaryOpNode|BinaryOpNode:
     """term adalah langkah kedua dari parser"""
     return self.binary_operation(self.factor, (Token.TT_MUL, Token.TT_DIV))
     
-  def factor(self) -> UnaryOpNode|NumberNode:
+  def factor(self) -> NumberNode|UnaryOpNode|BinaryOpNode:
     token: str = self.current_token
     
     if token.type in (Token.TT_PLUS, Token.TT_MINUS):
       self.advance()
-      factor = self.factor() 
+      factor: NumberNode|UnaryOpNode|BinaryOpNode = self.factor() 
       # ^ ini ga bakal nge override karna yang function pake keyword self
       # | gunanya panggil diri sendiri supaya bisa ngedeteksi unary beruntun kayak --5
       return UnaryOpNode(token, factor)
@@ -52,7 +53,7 @@ class Parser:
       return NumberNode(token)
     elif token.type == Token.TT_LPARENT:
       self.advance()
-      expr = self.expression()
+      expr: NumberNode|UnaryOpNode|BinaryOpNode = self.expression()
       if self.current_token.type == Token.TT_RPARENT:
         self.advance()
         return expr
@@ -60,13 +61,13 @@ class Parser:
   # def atom(self) -> NumberNode:
 #     token: str = self.current_token
     
-  def binary_operation(self, func: callable, ops: str) -> BinaryOpNode:
-    left: BinaryOpNode = func() # ini bakal manggil function terus terusan sampe nyentuh valuenya factor
+  def binary_operation(self, func: callable, ops: str) -> NumberNode|UnaryOpNode|BinaryOpNode:
+    left: NumberNode|UnaryOpNode|BinaryOpNode = func() # ini bakal manggil function terus terusan sampe nyentuh valuenya factor
     
     while self.current_token.type in ops:
       op_token: str = self.current_token
       self.advance()
-      right:  BinaryOpNode  = func() # sama kayak yang left, return value nya int plus|minus (kayak 1, 5, 67, -10)
-      left :  BinaryOpNode  = BinaryOpNode(left, op_token, right) # ubah nilai leftnya jadi node kalau udah dapet int nya
+      right:  NumberNode|UnaryOpNode|BinaryOpNode  = func() # sama kayak yang left, return value nya int plus|minus (kayak 1, 5, 67, -10)
+      left :  NumberNode|UnaryOpNode|BinaryOpNode  = BinaryOpNode(left, op_token, right) # ubah nilai leftnya jadi node kalau udah dapet int nya
     return left
     # BinaryOpNode: left=int, op_token=operation(+, -, *, /), right=int
