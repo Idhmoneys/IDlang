@@ -30,8 +30,9 @@ def main() -> None:
       
       interpreter = Interpreter()
       print(interpreter.visit(ast))
-      
-      
+
+#====================================================#
+
 def REPL():
   while True:
     
@@ -45,12 +46,22 @@ def REPL():
       continue
     
     parser: Parser = Parser(tokens)
+    
     ast: NODES     = parser.parse() # ast -> Abstract Syntax Tree
     
-    interpreter: Interpreter = Interpreter()
-    result: any    = interpreter.visit(ast)
     
-    print(result)
+    if ast.error:
+      print(ast.error.as_string())
+      continue
+    
+    interpreter: Interpreter = Interpreter()
+    result: any    = interpreter.visit(ast.node)
+    
+    if result.error:
+      print(result.error.as_string())
+      continue
+    
+    print(result.value)
 
   
 if __name__ == '__main__':

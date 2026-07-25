@@ -12,13 +12,12 @@ class Lexer:
     self.index: int   = -1
     self.advance()
 
-  
   def advance(self) -> None:
     """Memajukan character sekarang"""
     self.index += 1
     self.current_character: str|None = self.text[self.index] if self.index < len(self.text) else None
   
-  def create_tokens(self) -> list[Token]:
+  def create_tokens(self) -> list[Token|None] & None|IllegalCharError:
     """Membuat token untuk digunakan di tempat lain"""
     tokens: list[Token] = [] # penympanan token
     
@@ -57,7 +56,9 @@ class Lexer:
             return [], IllegalCharError(self.current_character).as_string()
     tokens.append(Token(Token.TT_EOF))
     return tokens, None
-    
+  
+  #====================================================#
+
   def generate_numbers(self) -> Token:
     """
     Menggabung kan character untuk menjad angka, mirip split(' ')

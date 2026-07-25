@@ -2,6 +2,7 @@ import NODES
 from ERRORS import NoVisitMethod
 from VALUES import Number
 from TOKENS import Token
+from RESULT import RuntimeResult
 
 class Interpreter:
   def visit(self, node: NODES) -> Number|NoVisitMethod|int|None:
@@ -18,33 +19,49 @@ class Interpreter:
   def no_visit(node: NODES) -> NoVisitMethod:
     return NoVisitMethod(f'No visit {type(node).__name__} method found').as_string()
     
-  ##############################################
+  #====================================================#
   
-  def visit_NumberNode(self, node: NODES) -> Number:
-    return Number(node.token.value)
-    
+  @staticmethod
+  def visit_NumberNode(node: NODES) -> Number:
+    result = RuntimeResult()
+    return result.success(Number(node.token.value))
+  
+  
   def visit_BinaryOpNode(self, node: NODES) -> int|None:
-    left_number: Number  = self.visit(node.left_node)
+    res = RuntimeResult()
+    left_number: Number  = res.register(self.visit(node.left_node))
     operator: Token = node.op_token
-    right_number: Number = self.visit(node.right_node)
+    right_number: Number = res.register(self.visit(node.right_node))
+    
+    if res.error:
+      return res
     
     match operator.type:
       case Token.TT_PLUS:
-        return left_number.add(right_number)
+        result, error = left_number.add(right_number)
       case Token.TT_MINUS:
-        return left_number.subtract(right_number)
+        result, error =  left_number.subtract(right_number)
       case Token.TT_MUL:
-        return left_number.multiply(right_number)
+        result, error = left_number.multiply(right_number)
       case Token.TT_DIV:
-        return left_number.divide(right_number)
+        result, error = left_number.divide(right_number)
       case _:
         return None
-        
+    
+    if error:
+      return res.failure(error)
+    return res.success(result)
+  
+  
   def visit_UnaryOpNode(self, node) -> Number:
-    number: Number = self.visit(node.node)
+    result = RuntimeResult()
+    number: Number = result.register(self.visit(node.node))
     operator: Token = node.op_token.type
     
+    if result.error:
+      return result
+    
     if operator == Token.TT_MINUS:
-      number: Number = number.multiply(Number(-1))
+      number, error = number.multiply(Number(-1))
       
-    return number
+    return result.success(number)

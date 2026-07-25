@@ -7,17 +7,27 @@ class Error:
   details: str
   
   def as_string(self) -> str:
+    RED = '\033[1;31m'
+    RESET = '\033[0m'
     """Berfungsi agar kalau pengen di print lebih rapi"""
-    return f'{self.name}: {self.details}'
+    return f'{RED}{self.name}:{RESET} {self.details}'
 
 
 class IllegalCharError(Error):
   def __init__(self, details: str) -> None:
-    super().__init__('Illegal Character', details)
+    super().__init__('Karakter Illegal', details)
+    
+class SyntaxError(Error):
+  def __init__(self, details: str) -> None:
+    super().__init__('Kesalahan Syntax', details)
+    
+class RuntimeError(Error):
+  def __init__(self, details: str='') -> None:
+    super().__init__('Kesalahan Saat Beroperasi', details)
   
 class NoVisitMethod(Error):
   def __init__(self, details: str) -> None:
-    super().__init__('No Visit Method', details)
+    super().__init__('Tidak Ada Visit Method', details)
 
  
 def main() -> None:

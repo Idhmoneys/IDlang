@@ -43,6 +43,12 @@ Proyek ini dibuat sebagai sarana belajar membangun **lexer**, **parser**, dan **
   <img src="assets/interpreter_v0.2.jpg">
 </p>
 
+### v0.5
+
+<p align="center">
+  <img src="assets/interpreter_v0.4.jpg">
+</p>
+
 ---
 
 ## 📋 Persyaratan
@@ -63,7 +69,7 @@ python main.py
 
 ## ✨ Fitur
 
-Saat ini Indo sudah memiliki:
+Saat ini IDlang sudah memiliki:
 
 - REPL interaktif
 - Lexer
@@ -112,6 +118,17 @@ Saat ini Indo sudah memiliki:
 - Value
 - AST
 - Interpreter
+- 
+### v0.5
+
+> telah membuat error handling, sudah bisa mengatasi division by zero, dll
+
+- Result
+- Parse Result
+- Runtime Result
+- Runtime Error
+- No Visit Error
+- Syntax Error
 
 ---
 
@@ -135,7 +152,7 @@ Saat ini Indo sudah memiliki:
 
 ---
 
-## 🤷 Kenapa membuat Indo?
+## 🤷 Kenapa membuat IDlang?
 
 Awalnya proyek ini dibuat sebagai media belajar membuat bahasa pemrograman.
 

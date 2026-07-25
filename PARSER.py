@@ -1,6 +1,13 @@
 from TOKENS import Token
 from NODES import BinaryOpNode, UnaryOpNode, NumberNode
-from ERRORS import IllegalCharError
+from ERRORS import IllegalCharError, SyntaxError
+from RESULT import ParseResult
+
+#====================================================#
+
+Node = NumberNode | UnaryOpNode | BinaryOpNode
+
+#====================================================#
 
 class Parser:
   """
@@ -11,7 +18,7 @@ class Parser:
   """
   
   def __init__(self, tokens: list[Token]) -> None:
-    self.tokens: Token = tokens # isinya (operator) atau (tipe token + value token)
+    self.tokens: list[Token] = tokens # isinya (operator) atau (tipe token + value token)
     self.index: int = -1
     self.advance() # berfungsi untuk memajukan index sekarang, yang tadinya -1 jadi 0
     
@@ -27,47 +34,75 @@ class Parser:
     begitu terus sampai di tier maximal
     TODO: bikin parse nya
     """
-    result: NumberNode|UnaryOpNode|BinaryOpNode = self.expression()
-    return result
+    result: Node = self.expression()
     
-  #################################
-  def expression(self) -> NumberNode|UnaryOpNode|BinaryOpNode:
+    
+    if not result.error and self.current_token.type != Token.TT_EOF:
+      return result.failure(SyntaxError("Mengharapkan '+', '-', '*', atau '/'."))
+    
+    return result
+  
+  #====================================================#
+  
+  def expression(self) -> Node:
     """expression adalah langkah paling awal dalam parser"""
     return self.binary_operation(self.term, (Token.TT_PLUS, Token.TT_MINUS))
-    
-  def term(self) -> NumberNode|UnaryOpNode|BinaryOpNode:
+  
+  def term(self) -> Node:
     """term adalah langkah kedua dari parser"""
     return self.binary_operation(self.factor, (Token.TT_MUL, Token.TT_DIV))
+  
+  def factor(self) -> Node:
+    """factor adalah langkah paling akhir dari parser"""
+    token:  str         = self.current_token
+    result: ParseResult = ParseResult()
     
-  def factor(self) -> NumberNode|UnaryOpNode|BinaryOpNode:
-    token: str = self.current_token
-    
+   
     if token.type in (Token.TT_PLUS, Token.TT_MINUS):
       self.advance()
-      factor: NumberNode|UnaryOpNode|BinaryOpNode = self.factor() 
+      factor: Node = result.register(self.factor())
       # ^ ini ga bakal nge override karna yang function pake keyword self
       # | gunanya panggil diri sendiri supaya bisa ngedeteksi unary beruntun kayak --5
-      return UnaryOpNode(token, factor)
+      return result.success(UnaryOpNode(token, factor))
+    
     elif token.type in (Token.TT_INT, Token.TT_FLOAT):
       self.advance()
-      return NumberNode(token)
+      return result.success(NumberNode(token))
+    
     elif token.type == Token.TT_LPARENT:
       self.advance()
-      expr: NumberNode|UnaryOpNode|BinaryOpNode = self.expression()
+      expr: Node = result.register(self.expression())
+    
+      if result.error:
+        return result
+      
       if self.current_token.type == Token.TT_RPARENT:
         self.advance()
-        return expr
+        return result.success(expr)
+      
+      return result.failure(SyntaxError("Membutuhkan ')'."))
     
-  # def atom(self) -> NumberNode:
-#     token: str = self.current_token
-    
+    return result.failure(SyntaxError("Mengharapkan sebuah nilai."))
+
+  #====================================================#
+  
   def binary_operation(self, func: callable, ops: str) -> NumberNode|UnaryOpNode|BinaryOpNode:
-    left: NumberNode|UnaryOpNode|BinaryOpNode = func() # ini bakal manggil function terus terusan sampe nyentuh valuenya factor
+    result: ParseResult = ParseResult()
+    left: Node = result.register(func()) # ini bakal manggil function terus terusan sampe nyentuh valuenya factor
     
+    
+    if result.error:
+      return result
+   
     while self.current_token.type in ops:
       op_token: str = self.current_token
+    
       self.advance()
-      right:  NumberNode|UnaryOpNode|BinaryOpNode  = func() # sama kayak yang left, return value nya int plus|minus (kayak 1, 5, 67, -10)
-      left :  NumberNode|UnaryOpNode|BinaryOpNode  = BinaryOpNode(left, op_token, right) # ubah nilai leftnya jadi node kalau udah dapet int nya
-    return left
+      right:  Node  = result.register(func()) # sama kayak yang left, return value nya int plus|minus (kayak 1, 5, 67, -10)
+    
+      if result.error:
+        return result
+      
+      left :  Node  = BinaryOpNode(left, op_token, right) # ubah nilai leftnya jadi node kalau udah dapet int nya
+    return result.success(left)
     # BinaryOpNode: left=int, op_token=operation(+, -, *, /), right=int

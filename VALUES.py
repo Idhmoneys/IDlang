@@ -1,4 +1,5 @@
 from typing import Self
+from ERRORS import RuntimeError
 
 class Number:
   def __init__(self, value: int|str) -> None:
@@ -9,16 +10,19 @@ class Number:
     
   def add(self, other: Self|None) -> Self:
     if isinstance(other, Number):
-      return Number(self.value + other.value)
+      return Number(self.value + other.value), None
+      # None = Errornya
       
   def subtract(self, other: Self|None) -> Self:
     if isinstance(other, Number):
-      return Number(self.value - other.value)
+      return Number(self.value - other.value), None
       
   def multiply(self, other: Self|None) -> Self:
     if isinstance(other, Number):
-      return Number(self.value * other.value)
+      return Number(self.value * other.value), None
       
   def divide(self, other: Self|None) -> Self:
     if isinstance(other, Number):
-      return Number(self.value / other.value)
+      if other.value == 0:
+        return None, RuntimeError("Tidak bisa membagikan angka dengan angka '0'")
+      return Number(self.value / other.value), None
