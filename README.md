@@ -1,7 +1,7 @@
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-In%20Development-orange)
-![Version](https://img.shields.io/badge/version-v0.4-blue)
+![Version](https://img.shields.io/badge/version-v0.6.0-blue)
 
 # 🇮🇩 Indo Programming Language
 
@@ -19,34 +19,40 @@ Proyek ini dibuat sebagai sarana belajar membangun **lexer**, **parser**, dan **
 
 ## 📝 Contoh
 
-```python
->> 25 + 6 * 15 / 2 - 3
-67.0
+```text
+Idlang: buat x sebagai 10 >> Membuat variable 'x'
+10
 
->> 20 / (-5 - (-10))
-4.0
+Idlang: x ^ 10 >> mempangkatkan x
+10000000000
 ```
 
 ---
 
 ## 📸 Screenshot
 
-### v0.1
+### v0.1.0
 
 <p align="center">
   <img src="assets/interpreter_v0.1.jpg" width="400">
 </p>
 
-### v0.2
+### v0.2.0
 
 <p align="center">
   <img src="assets/interpreter_v0.2.jpg">
 </p>
 
-### v0.5
+### v0.5.0
 
 <p align="center">
   <img src="assets/interpreter_v0.4.jpg">
+</p>
+
+### v0.6.0
+
+<p align="center">
+  <img src="assets/interpreter_v0.6.0.jpg">
 </p>
 
 ---
@@ -80,19 +86,20 @@ Saat ini IDlang sudah memiliki:
 - Tanda kurung
 - Runtime Error
 - Context
+- Variabel
 
 ---
 
 ## 📈 Progress/Changelog
 
-### v0.1
+### v0.1.0
 
 - Lexer
 - Parser
 - Unary operator
 - Operasi aritmatika dasar
 
-### v0.2
+### v0.2.0
 
 - Interpreter
 - AST
@@ -100,7 +107,7 @@ Saat ini IDlang sudah memiliki:
 - Context
 - Operator perpangkatan (^)
 
-### v0.3
+### v0.3.0
 
 > ℹ️ v0.3 merupakan hasil penulisan ulang (rewrite) dari proyek sebelumnya.
 > Beberapa fitur yang ada di v0.2 kebawah sedang dibangun ulang dengan implementasi yang lebih rapi dan tanpa bergantung pada tutorial.
@@ -110,7 +117,7 @@ Saat ini IDlang sudah memiliki:
 - Unary operator
 - Operasi aritmatika dasar
 
-### v0.4
+### v0.4.0
 
 > telah berhasil menambah interpreter, sekarang sudah bisa menghitung aritmatika dasar.
 
@@ -118,8 +125,8 @@ Saat ini IDlang sudah memiliki:
 - Value
 - AST
 - Interpreter
-- 
-### v0.5
+
+### v0.5.0
 
 > telah membuat error handling, sudah bisa mengatasi division by zero, dll
 
@@ -130,6 +137,17 @@ Saat ini IDlang sudah memiliki:
 - No Visit Error
 - Syntax Error
 
+### v0.6.0
+
+> membuat perpangkatan, variables, dan bug fixing
+
+- Pangkat (^)
+- Variabel
+- Context
+- Symbol Table
+
+Untuk changelog yang lebih lengkap bisa dilihat di CHANGELOG.md
+
 ---
 
 ## 🛣️ Roadmap
@@ -138,7 +156,7 @@ Saat ini IDlang sudah memiliki:
 - [x] Parser
 - [x] AST
 - [x] Interpreter
-- [ ] Variables
+- [x] Variables
 - [ ] String
 - [ ] Boolean
 - [ ] If Statement

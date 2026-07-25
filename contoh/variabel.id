@@ -1,0 +1,15 @@
+>> Contoh Penggunaan Variabel:
+
+buat x sebagai 10 >> membuat variable x dengan nilai 10
+buat y sebagai 20
+buat z sebagai 30
+
+x * (y + z)
+>> 10 * (20 + 30)
+
+>> Variabel berderetan
+
+buat a sebagai buat b sebagai buat c sebagai 10
+a >> 10
+b >> 10
+c >> 10

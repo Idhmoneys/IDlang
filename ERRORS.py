@@ -24,10 +24,6 @@ class SyntaxError(Error):
 class RuntimeError(Error):
   def __init__(self, details: str='') -> None:
     super().__init__('Kesalahan Saat Beroperasi', details)
-  
-class NoVisitMethod(Error):
-  def __init__(self, details: str) -> None:
-    super().__init__('Tidak Ada Visit Method', details)
 
  
 def main() -> None:

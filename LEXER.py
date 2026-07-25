@@ -27,6 +27,8 @@ class Lexer:
         self.advance()
       elif self.current_character in Token.DIGITS: # cek apakah hurufnya ada di digits
         tokens.append(self.generate_numbers())
+      elif self.current_character in Token.LETTERS:
+        tokens.append(self.generate_identifier())
       else:
         match self.current_character: # i lup match case :v
           case '+':
@@ -44,16 +46,33 @@ class Lexer:
           case '^':
             tokens.append(Token(Token.TT_POW))
             self.advance()
+          case '%':
+            tokens.append(Token(Token.TT_MOD))
+            self.advance()
           case '(':
             tokens.append(Token(Token.TT_LPARENT))
             self.advance()
           case ')':
             tokens.append(Token(Token.TT_RPARENT))
             self.advance()
+          case '>':
+            if not tokens:
+              return tokens, 'skip'
+            self.advance()
+            if self.current_character == '>':
+              break
+              # return tokens, 'skip'
+            return [], IllegalCharError('>, mungkin maksudmu >>?').as_string()
           case '.':
+            self.advance()
+            if self.current_character is not None:
+              return [], IllegalCharError(f"'{self.current_character}'").as_string()
             break
           case _:
             return [], IllegalCharError(self.current_character).as_string()
+            
+    if not tokens:
+      return [], 'skip'
     tokens.append(Token(Token.TT_EOF))
     return tokens, None
   
@@ -79,6 +98,21 @@ class Lexer:
     if dot_count == 1:
       return Token(Token.TT_FLOAT, float(numbers))
     return Token(Token.TT_INT, int(numbers))
+    
+    
+  def generate_identifier(self) -> Token:
+    """Berfungsi untuk menggabungkan character menjadi kalimat/kata/string"""
+    identifier: str = ''
+    
+    letters_digits: str = Token.LETTERS + Token.DIGITS
+    
+    while self.current_character is not None and self.current_character in letters_digits + '_':
+      identifier += self.current_character
+      self.advance()
+    
+    if identifier in Token.keyword:
+      return Token(Token.KEYWORD, identifier)
+    return Token(Token.IDENTIFIER, identifier)
 
 
 # AREA TESTING

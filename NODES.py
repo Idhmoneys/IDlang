@@ -26,4 +26,13 @@ class BinaryOpNode:
   
   def __repr__(self) -> str:
     return f'({self.left_node}, {self.op_token}, {self.right_node})'
+    
+@dataclass
+class VariableAssignNode:
+  variable_name : Token
+  variable_value: Token
   
+
+@dataclass
+class VariableAccessNode:
+  variable: Token = Token

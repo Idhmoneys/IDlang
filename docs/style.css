@@ -1,0 +1,65 @@
+* {
+  box-sizing: none;
+  font-family: "Fredoka";
+}
+
+:root {
+  --background-color: linear-gradient(135deg, hsl(0,100%,15%), hsl(0,100%,0%));
+  --text-color: white;
+  --primary-color: hsl(0,80%,60%);
+  --special-background-color: hsl(0,0%,92.5%);
+  --line-color: black;
+}
+
+body {
+  background-color: black;
+  background-image: var(--background-color);
+  background-repeat: no-repeat;
+  color: var(--text-color);
+}
+
+/* HEADER */
+.navbar {
+  text-decoration: none;
+}
+
+#title {
+  font-size: clamp(3em, 20vw, 10em);
+  text-align: center;
+  background: linear-gradient(180deg, #FF0000, #ffffff);
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 2px hsl(0,100%,25%);
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-color)
+}
+
+ul {
+  list-style-type: circle;
+  margin: 0;
+  padding-left: 1em;
+  padding: 0.2em 1em;
+  font-size: 1.3em;
+}
+
+ul li {
+  font-size: 80%;
+}
+
+.head {
+  padding: 0.5em 0;
+  font-size: 1.5em;
+}
+
+/**/
+.paragraph-1 p {
+  margin : .5em 0;
+  padding: .1em 0;
+}
+
+#account {
+  text-decoration: underline solid red;
+}

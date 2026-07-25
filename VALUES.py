@@ -26,3 +26,11 @@ class Number:
       if other.value == 0:
         return None, RuntimeError("Tidak bisa membagikan angka dengan angka '0'")
       return Number(self.value / other.value), None
+      
+  def power(self, other: Self|None) -> Self:
+    if isinstance(other, Number):
+      return Number(self.value ** other.value), None
+      
+  def mod(self, other: Self|None) -> Self:
+    if isinstance(other, Number):
+      return Number(self.value % other.value), None
