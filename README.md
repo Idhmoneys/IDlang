@@ -1,7 +1,7 @@
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-In%20Development-orange)
-![Version](https://img.shields.io/badge/version-v0.6.0-blue)
+![Version](https://img.shields.io/badge/version-v0.7.0-blue)
 
 # 🇮🇩 Indo Programming Language
 
@@ -52,7 +52,13 @@ Idlang: x ^ 10 >> mempangkatkan x
 ### v0.6.0
 
 <p align="center">
-  <img src="assets/interpreter_v0.6.0.jpg">
+  <img src="assets/idlang_v0.6.0.jpg">
+</p>
+
+### v0.7.0
+
+<p align='center'>
+  <img src="assets/idlang_v0.7.0.jpg" alt="idlang v0.7.0" />
 </p>
 
 ---
@@ -87,6 +93,9 @@ Saat ini IDlang sudah memiliki:
 - Runtime Error
 - Context
 - Variabel
+- Operasi perbandingan (`== != < <= > >=`)
+- Logika (`benar`, `salah`)
+- Operasi Logika (`dan`, `atau`, `bukan`)
 
 ---
 
@@ -146,7 +155,16 @@ Saat ini IDlang sudah memiliki:
 - Context
 - Symbol Table
 
-Untuk changelog yang lebih lengkap bisa dilihat di CHANGELOG.md
+### v0.7.0
+
+> versi kali ini berfokus pada operasi perbandingan dan logika
+
+- Logika ( Benar, Salah )
+- Perbandingan ( <= < == != > >= )
+- Operasi logika ( tidak, dan, atau )
+- Built-in variable ( kosong, benar, salah )
+
+Untuk changelog yang lebih lengkap bisa dilihat di **CHANGELOG**
 
 ---
 
@@ -157,8 +175,8 @@ Untuk changelog yang lebih lengkap bisa dilihat di CHANGELOG.md
 - [x] AST
 - [x] Interpreter
 - [x] Variables
+- [x] Boolean
 - [ ] String
-- [ ] Boolean
 - [ ] If Statement
 - [ ] Loop
 - [ ] Function

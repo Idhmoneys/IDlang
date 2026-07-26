@@ -10,6 +10,15 @@
      (POSITIVE | NEGATIVE) power*
   4. term\
      unary ((MUL | DIV) unary)*
-  5. expresion\
-     unary ((PLUS | MINUS)) unary)*\
-     KEYWORD:buat IDENTIFIER KEYWORD:sebagai expresion
+  5. arithmetic\
+    unary ((PLUS | MINUS)) unary)*\
+  6. comparasion
+    (tidak) arithmetic
+    arithmetic ((EQ|NE|GT|GTE|LT|LTE) arithmetic)
+  6. expresion\
+    comparasion ((dan|atau) comparasion)
+    KEYWORD:buat IDENTIFIER KEYWORD:sebagai expresion
+
+((2) == (2))
+(((2) == (2)) dan ((3) == (3)))
+(tidak (2 != 2))

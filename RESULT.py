@@ -1,6 +1,6 @@
 from ERRORS import Error
 from TOKENS import Token
-from typing import Self
+from typing import Self, Any
 
 class ParseResult:
   def __init__(self) -> None:
@@ -12,18 +12,19 @@ class ParseResult:
   
   #====================================================#
   
-  def register(self, node: any) -> Token:
-    if isinstance(node, ParseResult):
-      self.error: Error|None = node.error if node.error else self.error
-      return node.node
-    return node
+  def register(self, node: Token) -> Token | None:
+    if not isinstance(node, ParseResult):
+      return node
+    if node.error:
+      self.error = node.error
+    return node.node
   
-  def success(self, value: any) -> Self:
-    self.node: Token = value
+  def success(self, value: Any) -> Self:
+    self.node = value
     return self
   
-  def failure(self, error: any) -> Self:
-    self.error: Error = error
+  def failure(self, error: Any) -> Self:
+    self.error = error
     return self
     
 class RuntimeResult:

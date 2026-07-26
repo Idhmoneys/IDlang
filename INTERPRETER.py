@@ -51,6 +51,23 @@ class Interpreter:
         result, error = left_number.power(right_number)
       case Token.TT_MOD:
         result, error = left_number.mod(right_number)
+      case Token.DE:
+        result, error = left_number.is_equal(right_number)
+      case Token.NE:
+        result, error = left_number.not_equal(right_number)
+      case Token.GT:
+        result, error = left_number.greater_than(right_number)
+      case Token.GTE:
+        result, error = left_number.greater_than_equal(right_number)
+      case Token.LT:
+        result, error = left_number.less_than(right_number)
+      case Token.LTE:
+        result, error = left_number.less_than_equal(right_number)
+      case _:
+        if operator.equal_to(Token.KEYWORD, 'dan'):
+          result, error = left_number.and_(right_number)
+        if operator.equal_to(Token.KEYWORD, 'atau'):
+          result, error = left_number.or_(right_number)
     
     if error:
       return RTresult.failure(error)
@@ -67,6 +84,9 @@ class Interpreter:
     
     if operator == Token.TT_MINUS:
       number, error = number.multiply(Number(-1))
+      
+    if operator == Token.KEYWORD and node.op_token.value == 'tidak':
+      number, error = number.notted()
       
     return RTresult.success(number)
     

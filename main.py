@@ -58,14 +58,14 @@ def REPL() -> None:
   global_symbol_table.make('salah', Number(0))
   global_symbol_table.make('benar', Number(1))
   # CONST
+  file_name: str   = 'idlang_repl'
   context: Context = Context('<idlang>')
   context.symbol_table.parent = global_symbol_table.symbols
   # MAIN LOOP
   while True:
-    
     user_input: input = input('Idlang: ')
     
-    lexer: Lexer  = Lexer(user_input)
+    lexer: Lexer  = Lexer(file_name, user_input)
     tokens, error = lexer.create_tokens()
     
     if error == 'skip':
@@ -76,7 +76,6 @@ def REPL() -> None:
       continue
     
     parser: Parser = Parser(tokens)
-    
     ast: NODES     = parser.parse() # ast -> Abstract Syntax Tree
     
     

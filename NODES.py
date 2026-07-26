@@ -35,4 +35,4 @@ class VariableAssignNode:
 
 @dataclass
 class VariableAccessNode:
-  variable: Token = Token
+  variable: type[Token] = Token

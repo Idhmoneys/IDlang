@@ -28,7 +28,7 @@ class RuntimeError(Error):
  
 def main() -> None:
  er: IllegalCharError = IllegalCharError('test')
- print(er.string())
+ print(er.as_string())
   
 if __name__ == '__main__':
   main()

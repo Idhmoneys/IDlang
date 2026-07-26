@@ -7,6 +7,28 @@ class Token:
   """
   bagian-kecil hasil pecahan kode teks mentah 
   yang bisa digunakan untuk code lainnya
+  
+  Attribute:
+      |====Constant====|
+      DIGITS (str) : List angka.
+      LETTERS (str): List ascii letters.
+      
+      |====TokenType====================================|
+      |  INT (str)        : Integer  | Bilangan bulat
+      |  FLOAT (str)      : Float    | Bilangan desimal
+      |  PLUS (str)       : Positif  | Tambah
+      |  MINUS (str)      : Negatif  | Kurang
+      |  MUL (str)        : Multiply | Kali
+      |  DIV (str)        : Divide   | Bagi
+      |  POW (str)        : Power    | Pangkat
+      |  LPARENT (str)    : '('      | Buka Kurung
+      |  RPARENT (str)    : ')'      | Tutup Kurung
+      |  DOT (str)        : '.'      | Titik
+      |--------------------------------------------------|
+      |  IDENTIFIER (str) : Identifikasi
+      |  KEYWORD (str)    : Kata kunci
+      |  EOF (str): Akhir file (End Of File)
+      |==================================================|
   """
 
   
@@ -27,13 +49,29 @@ class Token:
   TT_RPARENT:     str   =   'RPARENT'
   TT_DOT:         str   =   'DOT'
   TT_EOF:         str   =   'EOF'
-  IDENTIFIER:  str   =   'IDENTIFIER'
-  KEYWORD:     str   =   'KEYWORD'
+  IDENTIFIER:     str   =   'IDENTIFIER'
+  KEYWORD:        str   =   'KEYWORD'
+  NOT:            str   =   'NOT'
+  EQUAL:          str   =   'EQUAL'
+  NE:             str   =   'NE'
+  OR:             str   =   'OR'
+  AND:            str   =   'AND'
+  DE:             str   =   'DE' # DOUBLE EQUAL | ==
+  LT:             str   =   'LT' # LESS THAN | <
+  LTE:            str   =   'LTE' # LESS THAN EQUAL | <=
+  GT:             str   =   'GT' # GREATER THAN | >
+  GTE:            str   =   'GTE' # GREATER THAN EQUAL | >=
   
   # KEYWORD
   keyword = [
     'buat',
-    'sebagai'
+    'sebagai',
+    'adalah',
+    'bukan',
+    'dan',
+    'atau',
+    'tidak',
+    'petunjuk'
   ]
   
   # SYMBOL TABLE
@@ -42,7 +80,7 @@ class Token:
   
   def __init__(self, token_type: str, value: None|int|float =None) -> None:
     self.type:  str            = token_type
-    self.value: None|int|float = value
+    self.value: None|int|float|str = value
     
   def __repr__(self) -> str:
     """Mengembalikan string yang rapi saat class ini di print"""

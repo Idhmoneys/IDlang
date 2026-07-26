@@ -27,19 +27,19 @@ class Parser:
     self.index += 1
     self.current_token: Token | None = self.tokens[self.index] if self.index < len(self.tokens) else None
     
-  def parse(self) -> None:
+  def parse(self) -> Node:
     """
     Memulai parsernya, dengan memanggil fungsi paling awal ()
     dan di fungsi itu akan memanggil fungsi level berikutnya
     begitu terus sampai di tier maximal
     TODO: bikin parse nya
     """
-    result: Node = self.expression()
+    Presult: ParseResult = ParseResult()
+    result: Node = Presult.register(self.expression())
+    if not Presult.error and self.current_token.type != Token.TT_EOF:
+      return Presult.failure(SyntaxError("Mengharapkan '+', '-', '*', atau '/'."))
     
-    if not result.error and self.current_token.type != Token.TT_EOF:
-      return result.failure(SyntaxError("Mengharapkan '+', '-', '*', atau '/'."))
-    
-    return result
+    return Presult.success(result)
   
   #====================================================#
   
@@ -67,6 +67,35 @@ class Parser:
       
       return result.success(VariableAssignNode(variable_name, value))
       
+    node = result.register(self.binary_operation(self.comparasion, ((Token.KEYWORD, 'dan'), (Token.KEYWORD, 'atau'))))
+    
+    if result.error:
+      return result
+    
+    return result.success(node)
+    
+    
+  def comparasion(self):
+    Presult = ParseResult()
+    if self.current_token.equal_to(Token.KEYWORD, 'tidak'):
+      op_token = self.current_token
+      self.advance()
+      
+      value = Presult.register(self.comparasion())
+      if Presult.error:
+        return Presult
+      return Presult.success(UnaryOpNode(op_token, value))
+    
+    value = Presult.register(self.binary_operation(
+      self.arithmetic, 
+      (Token.LT, Token.LTE, Token.DE, Token.NE, Token.GT, Token.GTE),
+      self.arithmetic
+    ))
+    if Presult.error:
+      return Presult.failure(SyntaxError('Mengharapkan sebuah nilai.'))
+    return Presult.success(value)
+      
+  def arithmetic(self):
     return self.binary_operation(self.term, (Token.TT_PLUS, Token.TT_MINUS))
   
   def term(self) -> Node:
@@ -119,7 +148,7 @@ class Parser:
 
   #====================================================#
   
-  def binary_operation(self, func: callable, ops: str, func2: callable=None) -> NumberNode|UnaryOpNode|BinaryOpNode:
+  def binary_operation(self, func: callable, ops: str, func2: callable=None) -> Node:
     if not func2:
       func2 = func
     
@@ -128,17 +157,14 @@ class Parser:
     
     if result.error:
       return result
-   
-    while self.current_token.type in ops:
+    while self.current_token.type in ops or (self.current_token.type, self.current_token.value) in ops:
       op_token: Token = self.current_token
-    
       self.advance()
       right:  Node  = result.register(func2()) # sama kayak yang left, return value nya int plus|minus (kayak 1, 5, 67, -10)
-    
+      
       if result.error:
         return result
       
       left :  Node  = BinaryOpNode(left, op_token, right) # ubah nilai leftnya jadi node kalau udah dapet int nya
-      
     return result.success(left)
     # BinaryOpNode: left=int, op_token=operation(+, -, *, /), right=int
