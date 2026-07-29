@@ -6,6 +6,7 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title>IDlang Documents</title>
 		<link rel="stylesheet" href="style.css" type="text/css" media="all" />
+		<!-- font fredoka -->
 		<link
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
@@ -28,11 +29,6 @@
 			href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap"
 			rel="stylesheet"
 		/>
-		<!-- favicon -->
-		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-		<link rel="manifest" href="/site.webmanifest" />
 	</head>
 	<body>
 		<nav class="sidebar">
@@ -44,9 +40,19 @@
 			<label for="navbar" id="overlay"></label>
 			<div class="link-container">
 				<div class="logo">
-				  <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" height="1.5em" width="1.5em"><path fill="currentColor" d="m16.5 24 3.5-3.5q.45-.45.45-1.1 0-.65-.45-1.1-.45-.45-1.1-.45-.65 0-1.1.45l-4.65 4.65q-.25.25-.35.5-.1.25-.1.55 0 .3.1.55.1.25.35.5l4.7 4.7q.45.45 1.1.45.65 0 1.1-.45.45-.45.45-1.1 0-.65-.45-1.1Zm15 0-3.55 3.55q-.45.45-.45 1.1 0 .65.45 1.1.45.45 1.1.45.65 0 1.1-.45l4.7-4.7q.25-.25.35-.5.1-.25.1-.55 0-.3-.1-.55-.1-.25-.35-.5l-4.7-4.7q-.2-.25-.5-.35-.3-.1-.6-.1t-.575.1q-.275.1-.525.35-.45.45-.45 1.1 0 .65.45 1.1ZM9 42q-1.2 0-2.1-.9Q6 40.2 6 39V9q0-1.2.9-2.1Q7.8 6 9 6h30q1.2 0 2.1.9.9.9.9 2.1v30q0 1.2-.9 2.1-.9.9-2.1.9Zm0-3h30V9H9v30ZM9 9v30V9Z"/></svg>
+					<svg
+						viewBox="0 0 48 48"
+						xmlns="http://www.w3.org/2000/svg"
+						height="1.5em"
+						width="1.5em"
+					>
+						<path
+							fill="currentColor"
+							d="m16.5 24 3.5-3.5q.45-.45.45-1.1 0-.65-.45-1.1-.45-.45-1.1-.45-.65 0-1.1.45l-4.65 4.65q-.25.25-.35.5-.1.25-.1.55 0 .3.1.55.1.25.35.5l4.7 4.7q.45.45 1.1.45.65 0 1.1-.45.45-.45.45-1.1 0-.65-.45-1.1Zm15 0-3.55 3.55q-.45.45-.45 1.1 0 .65.45 1.1.45.45 1.1.45.65 0 1.1-.45l4.7-4.7q.25-.25.35-.5.1-.25.1-.55 0-.3-.1-.55-.1-.25-.35-.5l-4.7-4.7q-.2-.25-.5-.35-.3-.1-.6-.1t-.575.1q-.275.1-.525.35-.45.45-.45 1.1 0 .65.45 1.1ZM9 42q-1.2 0-2.1-.9Q6 40.2 6 39V9q0-1.2.9-2.1Q7.8 6 9 6h30q1.2 0 2.1.9.9.9.9 2.1v30q0 1.2-.9 2.1-.9.9-2.1.9Zm0-3h30V9H9v30ZM9 9v30V9Z"
+						/>
+					</svg>
 					<h3 id="logo">
-					  <a href="index.html">Idlang</a>
+						<a href="index.html">Idlang</a>
 					</h3>
 					<label for="navbar" id="close-navbar"
 						><i class="fas fa-window-close"></i
@@ -54,7 +60,7 @@
 				</div>
 				<ul>
 					<li>
-					  <a href="permulaan.html">Permulaan</a>
+						<a href="#" id="current-link">Permulaan</a>
 						<ul>
 							<li><a href="#">Apa itu idlang?</a></li>
 							<li><a href="#">Instalasi</a></li>
@@ -121,40 +127,41 @@
 									<li><a href="#">fitur lainya</a></li>
 								</ul>
 							</li>
-				    </ul>
-				</li>
+						</ul>
+					</li>
 				</ul>
 			</div>
 		</nav>
 		<header class="header">
-			<h1 id="title">IDLANG</h1>
-			<blockquote>
-				<p>“bahasa pemograman yang berbicara dalam bahasa indonesia”</p>
-			</blockquote>
+			<h1>Permulaan</h1>
 		</header>
 		<main class="main">
 			<div class="paragraph-1">
+				<h3 id="subtitle">Apa itu idlang?</h3>
 				<p>
-					Idlang adalah bahasa pemograman buatan
+					<em>idlang</em> adalah bahasa pemrograman buatan
 					<i class="fab fa-github"></i
 					><a id="account" href="https://github.com/Idhmoneys//">Idhm</a>,
-					seorang siswa pelajar SMP di indonesia.
+					dibuat pada tanggal 19 juni 2026. Idhm adalah pelajar SMP di Indonesia
 				</p>
 				<p>
-					bahasa ini dibuat dengan tujuan untuk belajar lebih dalam tentang
-					bahasa pemogramman, serta untuk membantu non-programmer indonesia
-					lebih mudah untuk belajar pemogramman
+					Bahasa ini ditujukan kepada orang Indonesia, dengan gimmick unik
+					berupa syntax yang menggunakan bahasa Indonesia
 				</p>
+				<p>Contoh syntax</p>
+				<pre class="code-windows"><code>fungsi sapa(nama):
+  tampilkan `Halo &lt;nama&gt;`
+  
+buat nama sebagai tanyakan "siapa namamu"
+
+kalau nama bukan kosong:
+  sapa(nama)
+selain itu kalau nama adalah "idhm":
+  role = "admin"
+  sapa(nama)
+selain itu:
+  tampilkan "masukan nama yang valid"</code></pre>
 			</div>
 		</main>
-		<footer class="footer">
-		  <blockquote>
-		    <p>Made with ☕🗿 in Indonesia</p>
-		    <div class="Contact">
-	        <p><i class="fab fa-whatsapp"></i>Contact Me: 0881-02222-8786</p>
-		    </div>
-		    <p>idlang v0.7.0</p>
-		  </blockquote>
-		</footer>
 	</body>
 </html>

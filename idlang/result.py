@@ -1,5 +1,5 @@
-from ERRORS import Error
-from TOKENS import Token
+from idlang.errors import Error
+from idlang.tokens import Token
 from typing import Self, Any
 
 class ParseResult:
@@ -19,33 +19,36 @@ class ParseResult:
       self.error = node.error
     return node.node
   
-  def success(self, value: Any) -> Self:
+  def success(self, value: Token) -> Self:
     self.node = value
     return self
   
-  def failure(self, error: Any) -> Self:
+  def failure(self, error: Error) -> Self:
     self.error = error
     return self
+
+
     
 class RuntimeResult:
   def __init__(self):
-    self.node = None
-    self.error = None
+    self.node: None|Token = None
+    self.error: None|Error = None
     
   def __repr__(self) -> str:
     return f'{self.node= }, {self.error= }'
     
   #====================================================#
 
-  def register(self, result):
-    self.error = result.error if result.error else self.error
+  def register(self, result: Any) -> Self:
+    if result.error:
+      self.error: Error = result.error
     return result.value
     
-  def success(self, value):
-    self.value = value
+  def success(self, value: Token) -> Self:
+    self.value: Token = value
     return self
     
-  def failure(self, error):
-    self.error = error
+  def failure(self, error: Error) -> Self:
+    self.error: Error = error
     return self
   

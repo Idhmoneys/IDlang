@@ -19,12 +19,12 @@ Proyek ini dibuat sebagai sarana belajar membangun **lexer**, **parser**, dan **
 
 ## 📝 Contoh
 
-```text
-Idlang: buat x sebagai 10 >> Membuat variable 'x'
+```
+idlang: buat x sebagai 10
 10
-
-Idlang: x ^ 10 >> mempangkatkan x
-10000000000
+idlang: x bukan kosong
+1
+idlang: kalau x bukan 0: 10/x selain itu: 10^x
 ```
 
 ---
@@ -96,6 +96,8 @@ Saat ini IDlang sudah memiliki:
 - Operasi perbandingan (`== != < <= > >=`)
 - Logika (`benar`, `salah`)
 - Operasi Logika (`dan`, `atau`, `bukan`)
+- If statement (`kalau`, `selain itu kalau`, `selain itu`)
+- Website dokumentasi sederhana
 
 ---
 
@@ -164,6 +166,16 @@ Saat ini IDlang sudah memiliki:
 - Operasi logika ( tidak, dan, atau )
 - Built-in variable ( kosong, benar, salah )
 
+### v0.8.0
+
+> versi ini telah memperindah website dokumentasi dan membuat if statement
+
+- Percantik website (tambah sidebar, animasi, warna yang lebih nyaman, dll)
+- Memperbaik type annotation
+- Membuat docstring
+- Memindah directory file agar lebih bersih
+- If statement (kalau, selain itu kalau, selain itu)
+
 Untuk changelog yang lebih lengkap bisa dilihat di **CHANGELOG**
 
 ---
@@ -176,8 +188,8 @@ Untuk changelog yang lebih lengkap bisa dilihat di **CHANGELOG**
 - [x] Interpreter
 - [x] Variables
 - [x] Boolean
+- [x] If Statement
 - [ ] String
-- [ ] If Statement
 - [ ] Loop
 - [ ] Function
 - [ ] Lists

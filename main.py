@@ -1,10 +1,15 @@
-from LEXER import Lexer
-from PARSER import Parser
-from INTERPRETER import Interpreter
-from CONTEXT import Context
-from SYMBOL_TABLE import SymbolTable
-from VALUES import Number
-import NODES
+"""
+Tempat semua file berkumpul
+file ini berfokus pada pengumpulan semua file lain denfan cara mengimport
+"""
+
+from idlang.lexer import Lexer
+from idlang.parser import Parser
+from idlang.interpreter import Interpreter
+from idlang.context import Context
+from idlang.symbol_table import SymbolTable
+from idlang.value import Number
+from idlang.result import ParseResult, RuntimeResult
 import argparse
 
 def main() -> None:
@@ -12,41 +17,41 @@ def main() -> None:
   parser: argparse = argparse.ArgumentParser()
   parser.add_argument('file')
   path: dict[str] = parser.parse_args()
-  
+
   # BUKA FILE NYA
   with open(path.file, 'r') as f:
     file = f.readlines()
-    
+
     # LOOP UNTUK SETIAP BARIS DI FILE NYA
-    for line in file: 
+    for line in file:
       error = None
       line = line.strip()
-      
+
       lexer: Lexer  = Lexer(line)
       tokens, error = lexer.create_tokens()
-      
+
       if error == 'skip':
         continue
       elif error:
         print(error)
         return
-      
+
       parser: Parser = Parser(tokens)
-      
-      ast: NODES     = parser.parse() # ast -> Abstract Syntax Tree
-      
-      
+
+      ast: ParseResult = parser.parse() # ast -> Abstract Syntax Tree
+
+
       if ast.error:
         print(ast.error.as_string())
         return
-      
+
       interpreter: Interpreter = Interpreter()
-      result: any    = interpreter.visit(ast.node)
-      
+      result: RuntimeResult = interpreter.visit(ast.node)
+
       if result.error:
         print(result.error.as_string())
         return
-      
+
       print(result.value)
 
 #====================================================#
@@ -63,36 +68,36 @@ def REPL() -> None:
   context.symbol_table.parent = global_symbol_table.symbols
   # MAIN LOOP
   while True:
-    user_input: input = input('Idlang: ')
-    
+    user_input: str = input('Idlang: ')
+
     lexer: Lexer  = Lexer(file_name, user_input)
     tokens, error = lexer.create_tokens()
-    
+
     if error == 'skip':
       continue
-    
+
     if error:
       print(error)
       continue
-    
+
     parser: Parser = Parser(tokens)
-    ast: NODES     = parser.parse() # ast -> Abstract Syntax Tree
-    
-    
+    ast: ParseResult = parser.parse() # ast -> Abstract Syntax Tree
+
+
     if ast.error:
       print(ast.error.as_string())
       continue
-    
+
     interpreter: Interpreter = Interpreter()
-    result: any    = interpreter.visit(ast.node, context)
-    
+    result: RuntimeResult = interpreter.visit(ast.node, context)
+
     if result.error:
       print(result.error.as_string())
       continue
-    
+
     print(result.value)
 
-  
+
 if __name__ == '__main__':
   try:
     REPL()

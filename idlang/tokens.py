@@ -1,3 +1,4 @@
+"""Ini tokens"""
 import string
 
 ####################################
@@ -9,33 +10,32 @@ class Token:
   yang bisa digunakan untuk code lainnya
   
   Attribute:
-      |====Constant====|
-      DIGITS (str) : List angka.
-      LETTERS (str): List ascii letters.
-      
-      |====TokenType====================================|
-      |  INT (str)        : Integer  | Bilangan bulat
-      |  FLOAT (str)      : Float    | Bilangan desimal
-      |  PLUS (str)       : Positif  | Tambah
-      |  MINUS (str)      : Negatif  | Kurang
-      |  MUL (str)        : Multiply | Kali
-      |  DIV (str)        : Divide   | Bagi
-      |  POW (str)        : Power    | Pangkat
-      |  LPARENT (str)    : '('      | Buka Kurung
-      |  RPARENT (str)    : ')'      | Tutup Kurung
-      |  DOT (str)        : '.'      | Titik
-      |--------------------------------------------------|
+      |====Constant========================|
+      | DIGITS (str) : List angka.
+      | LETTERS (str): List ascii letters.
+      |====TokenType=======================|
+      |  INT (str)        : Integer
+      |  FLOAT (str)      : Float
+      |  PLUS (str)       : Positif
+      |  MINUS (str)      : Negatif
+      |  MUL (str)        : Multiply
+      |  DIV (str)        : Divide
+      |  POW (str)        : Power
+      |  LPARENT (str)    : '('
+      |  RPARENT (str)    : ')'
+      |  DOT (str)        : '.'
+      |-------------------------------------|
       |  IDENTIFIER (str) : Identifikasi
       |  KEYWORD (str)    : Kata kunci
       |  EOF (str): Akhir file (End Of File)
-      |==================================================|
+      |=====================================|
   """
 
-  
+
   # CONSTANTA
   DIGITS:       str  = '0123456789'
   LETTERS:       str  = string.ascii_letters
-  
+
   # TOKEN TYPE
   TT_INT:         str   =   'INT'
   TT_FLOAT:       str   =   'FLOAT'
@@ -61,6 +61,7 @@ class Token:
   LTE:            str   =   'LTE' # LESS THAN EQUAL | <=
   GT:             str   =   'GT' # GREATER THAN | >
   GTE:            str   =   'GTE' # GREATER THAN EQUAL | >=
+  COLON:          str   =   'COLON'
   
   # KEYWORD
   keyword = [
@@ -71,7 +72,9 @@ class Token:
     'dan',
     'atau',
     'tidak',
-    'petunjuk'
+    'kalau',
+    'selain',
+    'itu'
   ]
   
   # SYMBOL TABLE

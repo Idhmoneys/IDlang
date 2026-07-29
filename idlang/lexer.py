@@ -1,48 +1,79 @@
-from TOKENS import Token # Ambil class dari file token
-from ERRORS import IllegalCharError # Ambil class dari file errors
-from POSITION import Position
+"""
+		Lexer adalah tempat untuk mengubah kode text menjadi bagian kecil bernama token,
+		prosses ini dinamakan tokenizer.
+
+		---
+		Class:
+			Lexer
+
+		---
+		Contoh kode:
+			```python
+			from LEXER import Lexer
+			# import lainnya...
+
+			user_input: str = input('Idlang: ')
+
+			lexer: Lexer  = Lexer(file_name, user_input)
+			tokens, error = lexer.create_tokens()
+		```
+"""
+
+from idlang.tokens import Token # Ambil class dari file token
+from idlang.errors import IllegalCharError # Ambil class dari file errors
+from idlang.position import Position
 
 class Lexer:
   """
-    komponen program yang membaca kode teks mentah 
-    dan memecahnya menjadi bagian-kecil bernama TOKEN -Google
-    
+    komponen program yang membaca kode teks mentah
+    dan memecahnya menjadi bagian-kecil bernama token
+
     Attributes:
-        text (str)          : Text dari user.
-        file_name (str)     : Nama file yang sedang di gunakan.
-        index (int)         : Index character text.
-        position (Position) : Posisi text berada.
+        text (str)          				 : Text dari user.
+        file_name (str)     				 : Nama file yang sedang di gunakan.
+        index (int)         				 : Index character text.
+        position (Position) 				 : Posisi text berada.
+        current_character (str|None) : characther dari text sekarang.
   """
-  
-  def __init__(self, fn, text: str) -> None:
+
+  def __init__(self, fn: str, text: str) -> None:
     self.text:      str      = text
     self.file_name: str      = fn
     self.index:     int      = -1
     self.position:  Position = Position(fn, text, -1, 0, -1)
+    self.current_character: str|None = None
     self.advance()
 
   def advance(self) -> None:
-    """Memajukan character sekarang"""
-    self.position.pos_advance()
+    """
+			Memajukan character sekarang
+			line code:
+			```python
+				self.index += 1
+				self.position.pos_advance()
+				self.current_character: str|None = self.text[self.index] if self.index < len(self.text) else None
+			```
+		"""
     self.index += 1
+    self.position.pos_advance(self.current_character)
     self.current_character: str|None = self.text[self.index] if self.index < len(self.text) else None
-  
-  def create_tokens(self) -> (list[Token|None], None|IllegalCharError):
+
+  def create_tokens(self) -> tuple[list[Token|None], None|IllegalCharError]:
     """
       Membuat token untuk digunakan di tempat lain.
-      
+
       Return:
-          list[Token|None]: mengembalikan hasil dari tokenizer text
+          tuple[list[Token|None], None|IllegalCharError]: mengembalikan hasil dari tokenizer text
     """
     tokens: list[Token] = [] # penympanan token
-    
+
     # MAIN LOOPS
     while self.current_character is not None:
       if self.current_character in ' \t': # cek apakah hurufnya spasi/tab
         self.advance()
       elif self.current_character in Token.DIGITS: # cek apakah hurufnya ada di digits
         tokens.append(self.generate_numbers())
-      elif self.current_character in Token.LETTERS:
+      elif self.current_character in Token.LETTERS + '_':
         word = self.generate_identifier()
         comparasion_result = self.generate_comparasion(word)
         tokens.append(comparasion_result)
@@ -71,6 +102,9 @@ class Lexer:
             self.advance()
           case ')':
             tokens.append(Token(Token.TT_RPARENT))
+            self.advance()
+          case ':':
+            tokens.append(Token(Token.COLON))
             self.advance()
           case '=':
             equal_result, error = self.generate_equal('=')
@@ -102,12 +136,12 @@ class Lexer:
             break
           case _:
             return [], IllegalCharError(f"'{self.current_character}'").as_string()
-            
+
     if not tokens:
       return [], 'skip'
     tokens.append(Token(Token.TT_EOF))
     return tokens, None
-  
+
   #====================================================#
 
   def generate_numbers(self) -> Token:
@@ -164,7 +198,7 @@ class Lexer:
     return Token(Token.IDENTIFIER, identifier)
     
     
-  def generate_comparasion(self, word):
+  def generate_comparasion(self, word: Token) -> Token:
     if word.equal_to(Token.KEYWORD, 'adalah'):
       return Token(Token.DE, 'adalah')
     elif word.equal_to(Token.KEYWORD, 'bukan'):
@@ -177,9 +211,9 @@ class Lexer:
       return Token(Token.KEYWORD, 'atau')
     else:
       return word
-      
-  
-  def generate_equal(self, token):
+
+
+  def generate_equal(self, token) -> tuple[Token|None, IllegalCharError|None]:
     if token not in '<=>':
       return
     symbol = token
@@ -206,9 +240,7 @@ class Lexer:
     elif symbol == '!' :
       return Token(Token.GTE), None
     
-    return [], IllegalCharError(f'Membutuhkan operator setelah {symbol}')
-      
-    
+    return None, IllegalCharError(f'Membutuhkan operator setelah {symbol}')
 
 
 # AREA TESTING

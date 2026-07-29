@@ -26,7 +26,7 @@ class Position:
   def pos_advance(self, current_char: None|str=None):
     """
       Memajukan posisi index, column, dan line number
-      
+
       Parameter:
           current_char (str|None): character text sekarang
     """

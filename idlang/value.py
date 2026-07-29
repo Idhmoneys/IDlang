@@ -1,5 +1,5 @@
 from typing import Self
-from ERRORS import RuntimeError
+from idlang.errors import RuntimeError
 
 class Number:
   def __init__(self, value: int|float) -> None:
@@ -84,3 +84,6 @@ class Number:
     if isinstance(other, Number):
       return Number(int(self.value or other.value)), None
     return None, RuntimeError(f"'{self.value}' or '{other.value}'")
+
+  def is_true(self) -> tuple["Number|None", RuntimeError|None]:
+    return self.value != 0

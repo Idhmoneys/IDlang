@@ -1,9 +1,28 @@
-from SYMBOL_TABLE import SymbolTable
+"""
+	Context adalah tempat untuk menyimpan kondisi file
+	seperti display_name (tampilan nama), symbol_table (variable), dll.
+
+	file CONTEXT mempunyai class Context yang berfungsi untuk menyimpan data.
+
+---
+	contoh fungsi:
+	```python
+	from CONTEXT import Context
+	
+	context = Context()
+	
+	context.symbol_table.make(name='x', value=Number(10)) # membuat variable
+	nilai_x = context.symbol_table.take(variable='x') # mengambil nilai variable
+	```
+"""
+
+from idlang.symbol_table import SymbolTable
 from typing import Self
+
 
 class Context:
   """
-    Tempat untuk menympan semua context di file
+    #### Tempat untuk menyimpan semua context di file
   
     Attributes:
         display_name (str)            : Tampilan text, contohnya '<idlang>'

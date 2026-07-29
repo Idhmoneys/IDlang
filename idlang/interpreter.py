@@ -1,35 +1,76 @@
-import NODES
-from   ERRORS  import RuntimeError
-from   VALUES  import Number
-from   TOKENS  import Token
-from   RESULT  import RuntimeResult
-from   CONTEXT import Context
+"""
+	Interpreter adalah tempat untuk mengkalkulasi hasil tokenitizer lexer dan parser.
 
+	Class:
+		Interpreter
+
+	Contoh kode:
+		```python
+		from INTERPRETER import Interpreter
+		from typing import Any
+		# import lainnya...
+
+		interpreter: Interpreter = Interpreter()
+
+		# kode setting lexer & parser nya...
+
+		result: Any = interpreter.visit(ast.node, context)
+		```
+"""
+
+from idlang.tokens  import Token
+from idlang.value   import Number
+from idlang.context import Context
+from idlang.errors  import RuntimeError
+from idlang.result  import RuntimeResult
+from idlang.nodes   import NumberNode, UnaryOpNode, BinaryOpNode, VariableAccessNode, VariableAssignNode, IfNode
+from typing import Callable
+
+# ====Typedef===================================
+Node = NumberNode|UnaryOpNode|BinaryOpNode|VariableAssignNode|VariableAccessNode
+
+# ====MainClass==================================
 class Interpreter:
-  def visit(self, node: NODES, context: Context) -> str|int|None|Number|RuntimeError:
+  """
+    Interpreter adalah operasi melaksanakan token
+    
+    Function:
+        visit (Node, Context): Untuk pindah ke function lain sesuai Node nya
+        
+        visit_NumberNode   (Node, Context): Mengembalikan nilai dari Node
+        visit_UnaryOpNode  (Node, Context): Untuk mengubah Number positif bisa jadi negatif dan sebaliknya
+        visit_BinaryOpNode (Node, Context): Melakukan operasi ke Number|Token.KEYWORD
+        visit_VariableAccessNode (Node, Context): Mengembalikan nilai dari variable yang tersimpan
+        visit_VariableAssignNode (Node, Context): Menambah variable baru ke penyimpanan
+  """
+  
+  def visit(self, node: Node, context: Context) -> RuntimeResult:
     method: str = f'visit_{type(node).__name__}' 
     # type bakal keluarin class nya, contoh <class 'NODES.NumberNode'>
     # __name__ bakal keluarin nama class nya, contoh BinaryOpNode
-    method: callable = getattr(self, method, self.no_visit)
+    method: Callable = getattr(self, method, self.no_visit)
     # fungsi getattr mirip kayak . nya class/object, kayak self.var
     # getattr(self, result, self.no_visit) = self.{result}
     # kalau ga ketemu maka default nya self.no_visit
     return method(node, context)
-  
+
+	
   @staticmethod
-  def no_visit(node: NODES) -> RuntimeError:
+  def no_visit(node: Node, context: Context) -> RuntimeResult:
     result: RuntimeResult = RuntimeResult()
     return result.failure(RuntimeError(f'Tidak menemukan {type(node).__name__} visit method'))
-    
+
+		
   #====================================================#
-  
+
+	
   @staticmethod
-  def visit_NumberNode(node: NODES, context: Context) -> Number:
+  def visit_NumberNode(node: Node, context: Context) -> RuntimeResult:
     RTresult: RuntimeResult = RuntimeResult()
     return RTresult.success(Number(node.token.value))
-  
-  
-  def visit_BinaryOpNode(self, node: NODES, context: Context) -> int|None:
+
+
+  def visit_BinaryOpNode(self, node: Node, context: Context) -> RuntimeResult:
     RTresult:     RuntimeResult = RuntimeResult()
     left_number:  Number        = RTresult.register(self.visit(node.left_node, context))
     operator:     Token         = node.op_token
@@ -72,12 +113,12 @@ class Interpreter:
     if error:
       return RTresult.failure(error)
     return RTresult.success(result)
-  
-  
-  def visit_UnaryOpNode(self, node: NODES, context: Context) -> Number:
+
+
+  def visit_UnaryOpNode(self, node: Node, context: Context) -> RuntimeResult:
     RTresult: RuntimeResult = RuntimeResult()
     number:          Number = RTresult.register(self.visit(node.node, context))
-    operator:         Token = node.op_token.type
+    operator:         str = node.op_token.type
     
     if RTresult.error:
       return RTresult
@@ -88,24 +129,52 @@ class Interpreter:
     if operator == Token.KEYWORD and node.op_token.value == 'tidak':
       number, error = number.notted()
       
+    if RTresult.error:
+      return RTresult
+      
     return RTresult.success(number)
-    
-  
-  def visit_VariableAccessNode(self, node: NODES, context: Context) -> RuntimeError|str|int|None:
+
+
+  def visit_VariableAccessNode(self, node: VariableAccessNode, context: Context) -> RuntimeResult:
     RTresult: RuntimeResult = RuntimeResult()
     variable_name: Token = node.variable.value
-    value: str|int|None = context.symbol_table.take(variable_name)
+    value: RuntimeResult = context.symbol_table.take(variable_name)
     if value is None:
       return RTresult.failure(RuntimeError(f"Kata kunci '{variable_name}' tidak terdefinisikan."))
     return RTresult.success(value)
-    
-  def visit_VariableAssignNode(self, node: NODES, context: Context):
+
+
+  def visit_VariableAssignNode(self, node: VariableAssignNode, context: Context) -> RuntimeResult:
     RTresult: RuntimeResult = RuntimeResult()
-    variable_name: Token = node.variable_name.value
-    value: str|int|None = RTresult.register(self.visit(node.variable_value, context))
-    
+    variable_name = node.variable_name.value
+    value = RTresult.register(self.visit(node.variable_value, context))
+
     if RTresult.error:
       return RTresult
     context.symbol_table.make(variable_name, value)
-    
+
     return RTresult.success(value)
+
+
+  def visit_IfNode(self, node: IfNode, context: Context):
+    RTresult = RuntimeResult()
+    for condition, expression in node.if_cases:
+      condition_value = RTresult.register(self.visit(condition, context=context))
+      if RTresult.error:
+        return RTresult
+
+      if not condition_value.is_true():
+        continue
+
+      expr = RTresult.register(self.visit(expression, context))
+      if RTresult.error:
+        return RTresult
+      
+      return RTresult.success(expr)
+    if node.else_cases:
+      expr = RTresult.register(self.visit(node.else_cases[0], context))
+      if RTresult.error:
+        return RTresult
+      return RTresult.success(expr)
+  
+    return RTresult.success(None)
